@@ -1,0 +1,12 @@
+-- 코드를 작성해주세요
+SELECT A.ID,
+    SUM(
+        CASE
+            WHEN B.ID IS NULL THEN 0
+            ELSE 1
+        END
+    ) AS CHILD_COUNT
+FROM ECOLI_DATA A
+LEFT JOIN ECOLI_DATA B
+ON A.ID = B.PARENT_ID
+GROUP BY A.ID
