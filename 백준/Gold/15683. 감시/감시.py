@@ -30,52 +30,16 @@ def recursion(n):
     return
   
   x,y,t = cctv[n]
-  if t == 1:
-    for dx,dy in d:
-      check(x,y,dx,dy,"add")
-      recursion(n+1)
-      check(x,y,dx,dy,"delete")
-  elif t == 2:
-    for i in range(2):
-      for j in [i,i+2]:
-        dx = d[j%4][0]
-        dy = d[j%4][1]
-        check(x,y,dx,dy,"add")
-      recursion(n+1)
-      for j in [i,i+2]:
-        dx = d[j%4][0]
-        dy = d[j%4][1]
-        check(x,y,dx,dy,"delete")
-  elif t == 3:
-    for i in range(4):
-      for j in range(i,i+2):
-        dx = d[j%4][0]
-        dy = d[j%4][1]
-        check(x,y,dx,dy,"add")
-      recursion(n+1)
-      for j in range(i,i+2):
-        dx = d[j%4][0]
-        dy = d[j%4][1]
-        check(x,y,dx,dy,"delete")
-  elif t == 4:
-    for i in range(4):
-      for j in range(i,i+3):
-        dx = d[j%4][0]
-        dy = d[j%4][1]
-        check(x,y,dx,dy,"add")
-      recursion(n+1)
-      for j in range(i,i+3):
-        dx = d[j%4][0]
-        dy = d[j%4][1]
-        check(x,y,dx,dy,"delete")
-  elif t == 5:
-    for dx,dy in d:
+  for i in direction[t]:
+    for j in i:
+      dx = d[j][0]
+      dy = d[j][1]
       check(x,y,dx,dy,"add")
     recursion(n+1)
-    for dx,dy in d:
+    for j in i:
+      dx = d[j][0]
+      dy = d[j][1]
       check(x,y,dx,dy,"delete")
-
-
 
 for i in range(N):
   temp = list(map(int,input().split()))
@@ -87,5 +51,12 @@ for i in range(N):
 answer = float("inf")
 cnt = [[0] * M for _ in range(N)]
 d = [(-1,0),(0,1),(1,0),(0,-1)]
+direction = {
+  1: [[0], [1], [2], [3]],
+  2: [[0,2], [1,3]],
+  3: [[0,1], [1,2], [2,3], [3,0]],
+  4: [[0,1,2], [1,2,3], [2,3,0], [3,0,1]],
+  5: [[0,1,2,3]]
+}
 recursion(0)
 print(answer)
